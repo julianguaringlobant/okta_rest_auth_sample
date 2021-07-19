@@ -18,12 +18,22 @@ namespace ConsoleApplication
             Console.WriteLine($"Username: {OktaAuthenticatorDlg.UsrText}");
             Console.WriteLine("Password: {OktaAuthenticatorDlg.PswText}");
             dynamic OktaAuthenticator = new HydraOktaAuthentication();
-            OktaAuthenticator.OktaAuthenticate(
-                "wbiegames", 
-                "x.julian.guarin@wbgconsultant.com",//OktaAuthenticatorDlg.UsrText, 
-                "Songohan3578--"
-                );
-            
+            try
+            {
+                string username = OktaAuthenticatorDlg.UsrText;
+                string password = OktaAuthenticatorDlg.PswText;
+                OktaAuthenticator.OktaAuthenticate(
+                    "wbiegames",
+                    username,
+                    password
+                    );
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            //loginOk.Wait();
 
         }
 

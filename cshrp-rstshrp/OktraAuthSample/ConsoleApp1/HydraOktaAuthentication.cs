@@ -16,7 +16,7 @@ namespace ConsoleApplication
         {
             UserPass,
             SendPush,
-            OktaAccess,
+            HydraOktaAccess,
             Finished_OK,
             Finished_Rejected
         }
@@ -27,7 +27,7 @@ namespace ConsoleApplication
         {
             return (RestRequest)new RestRequest(endpoint, Method.POST).AddHeader("Accept", "application/json").AddHeader("Content-Type", "application/json");
         }
-        public async void OktaAuthenticate(string oktadmn, string usr, string psw)
+        public void OktaAuthenticate(string oktadmn, string usr, string psw)
         {
             dynamic oastate = OktaAuthState.UserPass;
             dynamic responseJson = JsonConvert.DeserializeObject("{}");
@@ -66,7 +66,7 @@ namespace ConsoleApplication
                     req = RequestCreator(href);
                     bodyobj["stateToken"] = stateToken;
                 }
-                else if (oastate == OktaAuthState.OktaAccess)
+                else if (oastate == OktaAuthState.HydraOktaAccess)
                 {
                     dynamic code = responseJson["sessionToken"].Value;
                     clnt = new RestClient(HydraUrl);
@@ -89,7 +89,7 @@ namespace ConsoleApplication
                     }
                     else if (status == "SUCCESS")
                     {
-                        oastate = OktaAuthState.OktaAccess;
+                        oastate = OktaAuthState.HydraOktaAccess;
                     }
                 }
                 else if (oastate == OktaAuthState.SendPush)
@@ -105,13 +105,13 @@ namespace ConsoleApplication
                     }
                     else if (status == "SUCCESS")
                     {
-                        oastate = OktaAuthState.OktaAccess;
+                        oastate = OktaAuthState.HydraOktaAccess;
                     }
                 }
-                else if (oastate == OktaAuthState.OktaAccess)
+                else if (oastate == OktaAuthState.HydraOktaAccess)
                 {
                     string message = postresponse.Content; ;
-                    string caption = "Some Message from our sponsors";
+                    string caption = "developer/okta_access response:";
                     MessageBoxButtons buttons = MessageBoxButtons.OK;
                     DialogResult result;
 
